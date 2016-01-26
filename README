@@ -1,9 +1,8 @@
-Création d'un serveur web en C.
-Pour l'instant, les fichiers sont dans le TP1 (ils seront modifiés par la suite).
+Création d'un serveur web en C, le mygaServer.
 
-La compilation se faire par l'intermédiaire d'un Makefile (dans le TP1) :
-Pour compiler, allez dans le TP1 et lancer la commande "make".
+La compilation se faire par l'intermédiaire d'un Makefile dans le répertoire root :
+Pour compiler, lancez la commande "make".
 
-L'éxécutable s'appelle "tp1" qui s'éxécute avec la commande "./tp1"
+L'éxécutable s'appelle "projet" qui s'éxécute avec la commande "./projet"
 
 Aucune autre utilisation pour l'instant

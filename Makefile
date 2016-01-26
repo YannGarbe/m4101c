@@ -3,7 +3,7 @@
 CC = gcc
 LD = gcc
 CFLAGS = - Wall -W - Werror
-LDFLAGS =
+LDFLAGS = 
 # Le nom de l’exécutable à fabriquer
 EXE = mygaServer
 # Les variables HEADERS, CFILES et OBJS vont contenir respectivement

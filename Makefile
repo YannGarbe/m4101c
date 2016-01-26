@@ -8,8 +8,8 @@
 CFLAGS = -O4 -W -Wall -Werror
 
 # 
-tp1: tp1.o tp1main.o
-	gcc -o tp1 tp1.o tp1main.o
+tp1: ./TP1/tp1.o ./TP1/tp1main.o
+	gcc -o projet ./TP1/tp1.o ./TP1/tp1main.o
 # Règle générique : $< == le fichier .c compilé
 %.o: %.c
 	gcc $(CFLAGS) -c -o $@ $<

@@ -1,14 +1,31 @@
-# include <stdio.h>
-# include <string.h>
+#include <stdio.h>
+#include <string.h>
+#include <sys/socket.h>
+#include <netinet/in.h>
+#include <netinet/tcp.h> 
+#include <unistd.h>
 
+int socket(int domain, int type, int protocol);
 
 int main ( int argc , char ** argv )
 {
-	/* Arnold Robbins in the LJ of February ’95 , describing RCS */
-	if ( argc > 1 && strcmp ( argv [1] ,"-advice")== 0) {
-		printf ("Don't Panic !\n");
-		return 42;
+	if ( argc > 1 && strcmp ( argv [1] ,"-test")== 0) {
+		printf ("Test accompli! \n");
 	}
-		printf ("Need an advice?\n");
+	printf ("OK\n");
+
+	int socket_serveur;
+	socket_serveur = socket(AF_INET, SOCK_STREAM, 0);
+	if (socket_serveur != -1)
+	{
+		printf("%d\n", socket_serveur);
+		perror("socket_serveur");
+		/* traitement de l'erreur*/
+	}
+	close(socket_serveur);
+	/*Utilisation de la socket serveur*/
+
 		return 0;
 }
+
+

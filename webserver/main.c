@@ -4,6 +4,7 @@
 #include <netinet/in.h>
 #include <netinet/tcp.h> 
 #include <unistd.h>
+#include "socket.h"
 
 int creerSocket(int domain, int type, int protocol);
 
@@ -15,12 +16,12 @@ int main ( int argc , char ** argv )
 	}
 	printf ("OK\n");
 
-	/*Création de la socket*/
-	int testSocket = creerSocket(AF_INET, SOCK_STREAM, 0);
-	close(testSocket);
-	/*Fermeture de la socket serveur*/
+	int serveur;
+	serveur = creer_serveur(8080);
+	
 
-		return 0;
+	printf("Fin du serveur : %d \n", serveur);
+	return 0;
 }
 
 

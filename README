@@ -2,7 +2,8 @@ Création d'un serveur web en C, le mygaServer.
 
 La compilation se faire par l'intermédiaire d'un Makefile dans le répertoire root :
 Pour compiler, lancez la commande "make".
+La make commande 'make' peut se lancer soit dans le répertoire racine, soit dans le répertoire 'webserver'.
 
-L'éxécutable s'appelle "projet" qui s'éxécute avec la commande "./projet"
+L'éxécutable s'appelle "mygaServer" qui s'éxécute avec la commande "./mygaServer" dans le répertoire 'webserver'.
 
-Aucune autre utilisation pour l'instant
+Aucune autre utilisation pour l'instant.

@@ -6,6 +6,7 @@
 #include <unistd.h>
 #include "socket.h"
 
+
 int creerSocket(int domain, int type, int protocol);
 
 

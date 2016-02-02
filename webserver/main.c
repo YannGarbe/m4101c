@@ -15,6 +15,7 @@ int main ( int argc , char ** argv )
 	printf ("OK\n");
 
 	int socket_serveur;
+	/*Création de la socket*/
 	socket_serveur = socket(AF_INET, SOCK_STREAM, 0);
 	if (socket_serveur != -1)
 	{
@@ -23,7 +24,7 @@ int main ( int argc , char ** argv )
 		/* traitement de l'erreur*/
 	}
 	close(socket_serveur);
-	/*Utilisation de la socket serveur*/
+	/*Fermeture de la socket serveur*/
 
 		return 0;
 }

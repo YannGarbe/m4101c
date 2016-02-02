@@ -51,15 +51,21 @@ int creer_serveur(int port) {
 	}
 	/* On peut maintenant dialoguer avec le client */
 	const char *message_bienvenue = " Bonjour , bienvenue sur mon serveur. Ce serveur est un projet d'un étudiant de Lille 1 dans le module 'Prog Sys'. \n Mon nom est Yann Garbé et je suis le créateur de ce serveur. Bon pour l'instant, il ne sert pas à grand chose, je vous l'accorde mais j'espère qu'il grandira.\n \n" ;
+
+	unsigned char buffer [1];
 	sleep(1);
+	int i;
 	
-	char *recup = "Test non concluant\n";
 	write ( socket_client, message_bienvenue , strlen(message_bienvenue ));
-	read( socket_client , recup , sizeof(recup));
-	//write ( socket_serveur , message_bienvenue ,strlen(message_bienvenue ));
-	printf("%s\n", recup);
-	
-	//close(socket_serveur);
+	while (socket_client != 0) {
+		if ((i = read( socket_client , buffer , sizeof(buffer)))== -1  ) {
+			perror("read");
+		}
+		//printf("%s\n", buffer);
+		
+		write ( socket_client, buffer , sizeof(buffer));
+	}
+	close(socket_serveur);
 	return port;
 } 
 

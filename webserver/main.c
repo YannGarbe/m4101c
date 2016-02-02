@@ -5,7 +5,7 @@
 #include <netinet/tcp.h> 
 #include <unistd.h>
 
-int socket(int domain, int type, int protocol);
+int creerSocket(int domain, int type, int protocol);
 
 int main ( int argc , char ** argv )
 {
@@ -14,16 +14,9 @@ int main ( int argc , char ** argv )
 	}
 	printf ("OK\n");
 
-	int socket_serveur;
 	/*Création de la socket*/
-	socket_serveur = socket(AF_INET, SOCK_STREAM, 0);
-	if (socket_serveur != -1)
-	{
-		printf("%d\n", socket_serveur);
-		perror("socket_serveur");
-		/* traitement de l'erreur*/
-	}
-	close(socket_serveur);
+	int testSocket = creerSocket(AF_INET, SOCK_STREAM, 0);
+	close(testSocket);
 	/*Fermeture de la socket serveur*/
 
 		return 0;

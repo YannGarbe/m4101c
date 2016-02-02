@@ -4,21 +4,9 @@
 
 
 int socket(int domain, int type, int protocol);
+int bind(int sockfd, const struct sockaddr *addr, socklen_t addrlen);
 
-void detailleSocket(int domain, int type, int protocol)
-{
-	printf("domain : %d\n", domain);
 
-	printf("type : %d\n", type);
-	
-	printf("protocol : %d\n", protocol);
-}
-
-int socket(int domain, int type, int protocol)
-{
-	detailleSocket(domain, type, protocol);
-	return domain+type+protocol;
-}
 
 int creerSocket(int domain, int type, int protocol)
 {
@@ -31,5 +19,15 @@ int creerSocket(int domain, int type, int protocol)
 	}
 	/*Utilisation de la socket*/
 	return socket_serveur;
+}
+
+/*Cette fonction sert juste à afficher les details de la socket*/
+void detailleSocket(int domain, int type, int protocol)
+{
+	printf("domain : %d\n", domain);
+
+	printf("type : %d\n", type);
+	
+	printf("protocol : %d\n", protocol);
 }
 

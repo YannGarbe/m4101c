@@ -1,0 +1,14 @@
+3.2.1
+1) Quittez votre serveur (Ctrl+C) et relancez le. Que se passe t’il ?
+	Une erreur apparaît : "Address already in use". On doit attendre alors quelques minutes pour relancer le serveur(sûrement pour valider la fin du serveur).
+
+2) Ajouter un petit délai avant l’envoi du message de bienvenue (1 seconde). Puis, exécutez la
+commande suivante : nc -z 127.0.0.1 8080. Que se passe t’il ?
+	Rien ne se passe.
+
+3) Exécutez la commande suivante : telnet ::1 8080. Que se passe t’il ? Pourquoi ?
+	Un message d'erreur apparaît "Unable to connect to remote host: Connection refused". Il doit y avoir un problème du configuration du serveur. En effet, en utilisant une adresse IPv6 alors que le serveur est uniquement configuré pour les adresses IPv4, une erreur apparaît.
+
+4) Lancez deux clients simultanément. Que se passe t’il ? Pourquoi ?
+	Le deuxième client n'a pas la main et n'a pas le message de bienvenue. Il n'y a qu'un seul processus qui est occupé par le premier client, le deuxieme attend alors après le premier client.
+

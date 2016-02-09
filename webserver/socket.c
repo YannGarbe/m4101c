@@ -58,15 +58,16 @@ int creer_serveur(int port) {
 		/* traitement d ’ erreur */
 	}
 	
-
-	int socket_client ;
-	socket_client = accept ( socket_serveur , NULL , NULL );
+	
+	int socket_client = 1 ;
+	
+	/*socket_client = accept ( socket_serveur , NULL , NULL );
 	
 	if ( socket_client == -1)
 	{
 		perror ( " accept " );
-		/* traitement d ’ erreur */
-	}
+		
+	}*/
 
 		
 
@@ -79,15 +80,43 @@ int creer_serveur(int port) {
 	sleep(1);
 	int i;
 
-	write ( socket_client, message_bienvenue , strlen(message_bienvenue ));
+	//write ( socket_client, message_bienvenue , strlen(message_bienvenue ));
 	while (socket_client != 0) {
-		if ((i = read( socket_client , buffer , sizeof(buffer)))== -1  ) {
+		socket_client = accept ( socket_serveur , NULL , NULL );
+	
+		if ( socket_client == -1)
+		{
+			perror ( " accept " );
+		}
+		if (fork() == 0)
+		}
+			close(socket_serveur);
+			write ( socket_client, message_bienvenue , strlen(message_bienvenue ));
+			if ((i = read( socket_client , buffer , sizeof(buffer)))== -1  ) {
+				perror("read");
+			}
+			write ( socket_client, buffer , sizeof(buffer));
+			close(socket_client);
+			exit(0);
+		}
+	}
+	close(socket_serveur);
+	return port;
+
+
+
+
+		/*if ((i = read( socket_client , buffer , sizeof(buffer)))== -1  ) {
 			perror("read");
 		}
 		write ( socket_client, buffer , sizeof(buffer));
 	}
 	close(socket_serveur);
-	return port;
+	return port;*/
+
+
+
+
 } 
 
 

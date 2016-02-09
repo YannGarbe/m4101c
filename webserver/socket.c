@@ -29,6 +29,13 @@ int creer_serveur(int port) {
 	saddr.sin_family = AF_INET; /* Socket ipv4 */
 	saddr.sin_port = htons (8080); /* Port d ’ écoute */
 	saddr.sin_addr.s_addr = INADDR_ANY; /* écoute sur toutes les interfaces */
+
+	/*Ajout de la modif socket*/
+	int optval = 1;
+	if (setsockopt(socket_serveur, SOL_SOCKET, SO_REUSEADDR, &optval, sizeof(int)) == -1)
+		perror("Can not set SO_REUSEADDR");
+
+
 	if (bind(socket_serveur , (struct sockaddr*)&saddr, sizeof(saddr)) == -1)
 	{
 		perror ( " bind socker_serveur " );
@@ -40,6 +47,7 @@ int creer_serveur(int port) {
 		perror ( " listen socket_serveur " );
 		/* traitement d ’ erreur */
 	}
+	
 
 	int socket_client ;
 	socket_client = accept ( socket_serveur , NULL , NULL );
@@ -49,6 +57,11 @@ int creer_serveur(int port) {
 		perror ( " accept " );
 		/* traitement d ’ erreur */
 	}
+
+		
+
+
+
 	/* On peut maintenant dialoguer avec le client */
 	const char *message_bienvenue = " Bonjour , bienvenue sur mon serveur. Ce serveur est un projet d'un étudiant de Lille 1 dans le module 'Prog Sys'. \n Mon nom est Yann Garbé et je suis le créateur de ce serveur. Bon pour l'instant, il ne sert pas à grand chose, je vous l'accorde mais j'espère qu'il grandira.\n \n" ;
 

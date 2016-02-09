@@ -15,7 +15,7 @@ int main ( int argc , char ** argv )
 	if ( argc > 1 && strcmp ( argv [1] ,"-test")== 0) {
 		printf ("Test accompli! \n");
 	}
-	printf ("OK\n");
+	printf ("Mise en place du Serveur\n");
 
 	int serveur;
 	serveur = creer_serveur(8080);

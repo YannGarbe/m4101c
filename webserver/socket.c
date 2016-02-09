@@ -8,8 +8,17 @@
 #include <netinet/in.h>
 #include <netinet/tcp.h>
 #include <string.h> 
+#include <signal.h>
 //int socket(int domain, int type, int protocol);
 //int bind(int sockfd, const struct sockaddr *addr, socklen_t addrlen);
+
+void initialiser_signaux(void)
+{
+	if (signal(SIGPIPE, SIG_IGN) == SIG_ERR)
+	{
+		perror("signal");
+	}
+}
 
 
 
@@ -18,6 +27,7 @@ int creer_serveur(int port) {
 	
 	int socket_serveur ;
 	socket_serveur = socket ( AF_INET , SOCK_STREAM , 0);
+	initialiser_signaux();
 	if ( socket_serveur == -1)
 	{
 		perror ( " socket_serveur " );
@@ -68,19 +78,19 @@ int creer_serveur(int port) {
 	unsigned char buffer [1];
 	sleep(1);
 	int i;
-	
+
 	write ( socket_client, message_bienvenue , strlen(message_bienvenue ));
 	while (socket_client != 0) {
 		if ((i = read( socket_client , buffer , sizeof(buffer)))== -1  ) {
 			perror("read");
 		}
-		//printf("%s\n", buffer);
-		
 		write ( socket_client, buffer , sizeof(buffer));
 	}
 	close(socket_serveur);
 	return port;
 } 
+
+
 
 
 /*Cette fonction sert juste à afficher les details de la socket*/

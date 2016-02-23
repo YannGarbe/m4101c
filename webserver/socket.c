@@ -92,10 +92,12 @@ int creer_serveur(int port) {
 		{
 			close(socket_serveur);
 			write ( socket_client, message_bienvenue , strlen(message_bienvenue ));
-			if ((i = read( socket_client , buffer , sizeof(buffer)))== -1  ) {
-				perror("read");
+			while (1) {
+				if ((i = read( socket_client , buffer , sizeof(buffer)))== -1  ) {
+					perror("read");
+				}
+				write ( socket_client, buffer , sizeof(buffer));
 			}
-			write ( socket_client, buffer , sizeof(buffer));
 			close(socket_client);
 			exit(0);
 		}

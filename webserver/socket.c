@@ -89,7 +89,7 @@ int creer_serveur(int port) {
 			perror ( " accept " );
 		}
 		if (fork() == 0)
-		}
+		{
 			close(socket_serveur);
 			write ( socket_client, message_bienvenue , strlen(message_bienvenue ));
 			if ((i = read( socket_client , buffer , sizeof(buffer)))== -1  ) {

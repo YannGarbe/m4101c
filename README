@@ -6,4 +6,5 @@ La make commande 'make' peut se lancer soit dans le répertoire racine, soit dan
 
 L'éxécutable s'appelle "mygaServer" qui s'éxécute avec la commande "./mygaServer" dans le répertoire 'webserver'.
 
-Aucune autre utilisation pour l'instant.
+-Lorsque le client (pour l'instant unique) se connecte au serveur, il reçoit un message de bienvenue.
+-Le client peut envoyer des messages au serveur qu'il renvoie de nouveau au client.

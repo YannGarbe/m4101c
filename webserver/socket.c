@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <sys/socket.h>
 #include <sys/types.h>
+#include <sys/wait.h>
 #include "socket.h"
 #include <stdlib.h>
 #include <ctype.h>
@@ -12,14 +13,27 @@
 //int socket(int domain, int type, int protocol);
 //int bind(int sockfd, const struct sockaddr *addr, socklen_t addrlen);
 
+void traitement_signal ( int sig )
+{
+	printf ( "Signal %d reçu \n" , sig );
+}
+
 void initialiser_signaux(void)
 {
 	if (signal(SIGPIPE, SIG_IGN) == SIG_ERR)
 	{
 		perror("signal");
 	}
-}
+	struct sigaction sa ;
+	sa.sa_handler = traitement_signal ;
+	sigemptyset (&sa.sa_mask );
+	sa.sa_flags = SA_RESTART;
+	if (sigaction (SIGCHLD, &sa, NULL)==-1)
+	{
+		perror ( " sigaction ( SIGCHLD ) " );
+	}
 
+}
 
 
 int creer_serveur(int port) {
@@ -104,20 +118,6 @@ int creer_serveur(int port) {
 	}
 	close(socket_serveur);
 	return port;
-
-
-
-
-		/*if ((i = read( socket_client , buffer , sizeof(buffer)))== -1  ) {
-			perror("read");
-		}
-		write ( socket_client, buffer , sizeof(buffer));
-	}
-	close(socket_serveur);
-	return port;*/
-
-
-
 
 } 
 

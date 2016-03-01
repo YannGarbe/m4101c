@@ -78,27 +78,32 @@ int creer_serveur(int port) {
 	
 	int socket_client = 1 ;
 	
-	/*socket_client = accept ( socket_serveur , NULL , NULL );
+	socket_client = accept ( socket_serveur , NULL , NULL );
 	
 	if ( socket_client == -1)
 	{
 		perror ( " accept " );
 		
-	}*/
+	}
 
 
 	/* On peut maintenant dialoguer avec le client */
 	const char *message_bienvenue = " Bonjour , bienvenue sur mon serveur. Ce serveur est un projet d'un étudiant de Lille 1 dans le module 'Prog Sys'. \n Mon nom est Yann Garbé et je suis le créateur de ce serveur. Bon pour l'instant, il ne sert pas à grand chose, je vous l'accorde mais j'espère qu'il grandira.\n Avant tout, merci d'utiliser ce serveur ! \n Aussi, ce projet est disponible sur GitHub ici : 'https://github.com/YannGarbe'. Vous pouvez consulter  la page si vous la voulez mais il n'y a pas grand chose.\n Petit poème : \nA travers les soupirs, les plaintes et le râle\nPoursuivons jusqu’au bout la funèbre spirale\nDe ses détours maudits.\nNotre guide n’est pas Virgile le poëte,\nLa Béatrix vers nous ne penche pas la tête\nDu fond du paradis.\n\nPour guide nous avons une vierge au teint pâle\nQui jamais ne reçut le baiser d’or du hâle\nDes lèvres du soleil.\nSa joue est sans couleur et sa bouche bleuâtre,\nLe bouton de sa gorge est blanc comme l’albâtre,\nAu lieu d’être vermeil.\n\nUn souffle fait plier sa taille délicate ;\nSes bras, plus transparents que le jaspe ou l’agate,\nPendent languissamment ;\nSa main laisse échapper une fleur qui se fane,\nEt, ployée à son dos, son aile diaphane\nReste sans mouvement.\n\nPlus sombres que la nuit, plus fixes que la pierre,\nSous leur sourcil d’ébène et leur longue paupière\nLuisent ses deux grands yeux,\nComme l’eau du Léthé qui va muette et noire,\nSes cheveux débordés baignent sa chair d’ivoire\nA flots silencieux.\n\nDes feuilles de ciguë avec des violettes\nSe mêlent sur son front aux blanches bandelettes,\nChaste et simple ornement ;\nQuant au reste, elle est nue, et l’on rit et l’on tremble\nEn la voyant venir ; car elle a tout ensemble\nL’air sinistre et charmant.\n\nQuoiqu’elle ait mis le pied dans tous les lits du monde,\nSous sa blanche couronne elle reste inféconde\nDepuis l’éternité.\nL’ardent baiser s’éteint sur sa lèvre fatale,\nEt personne n’a pu cueillir la rose pâle\nDe sa virginité.\n\nThéophile Gautier, La comédie de la mort\n\n" ;
 
-	unsigned char buffer [1];
+	char buffer [80];
 	sleep(1);
-	int i;
+	//int i;
+	FILE * file;
 	
 	initialiser_signaux();
 	//write ( socket_client, message_bienvenue , strlen(message_bienvenue ));
 	while (socket_client != 0) 
 	{
-		socket_client = accept ( socket_serveur , NULL , NULL );
+		file = fdopen (socket_client , "w+" );
+			if (file==NULL)
+			{
+				perror("fdopen");
+			}
 	
 		if ( socket_client == -1)
 		{
@@ -107,18 +112,17 @@ int creer_serveur(int port) {
 		if (fork() == 0)
 		{
 			
-			//close(socket_serveur);
+			close(socket_serveur);
 			write ( socket_client, message_bienvenue , strlen(message_bienvenue ));
+			fgets(buffer, 80, file);
+			fflush(file);
 			int fini = 0;
 			while (fini == 0) {
-				if ((i = read( socket_client , buffer , sizeof(buffer)))== -1  ) {
-					perror("read");
-				} else if (i == 0)
-				{
-					fini = 1;
-					exit(0);
-				}
-				write ( socket_client, buffer , sizeof(buffer));
+				
+				fprintf(file, "<pawnee> %s", buffer);
+				fflush(file);
+				fgets(buffer, 80, file);
+				fflush(file);
 				
 			}
 			

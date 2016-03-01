@@ -10,8 +10,7 @@
 #include <netinet/tcp.h>
 #include <string.h> 
 #include <signal.h>
-//int socket(int domain, int type, int protocol);
-//int bind(int sockfd, const struct sockaddr *addr, socklen_t addrlen);
+
 
 void traitement_signal ( int sig )
 {
@@ -37,7 +36,7 @@ void initialiser_signaux(void)
 
 
 int creer_serveur(int port) {
-	//printf("Pas encore implémenté! \n");
+	
 	
 	int socket_serveur ;
 	socket_serveur = socket ( AF_INET , SOCK_STREAM , 0);
@@ -68,7 +67,7 @@ int creer_serveur(int port) {
 
 	if ( listen ( socket_serveur , 10) == -1)
 	{
-		perror ( " listen socket_serveur " );
+		perror ("listen socket_serveur");
 		/* traitement d ’ erreur */
 	}
 	
@@ -82,9 +81,6 @@ int creer_serveur(int port) {
 		perror ( " accept " );
 		
 	}*/
-
-		
-
 
 
 	/* On peut maintenant dialoguer avec le client */

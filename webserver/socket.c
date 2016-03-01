@@ -14,7 +14,11 @@
 
 void traitement_signal ( int sig )
 {
+	int statut;
 	printf ( "Signal %d reçu \n" , sig );
+	if (sig == SIGCHLD) {
+		while (waitpid(-1, &statut, WNOHANG)>0);
+	}
 }
 
 void initialiser_signaux(void)
@@ -89,33 +93,41 @@ int creer_serveur(int port) {
 	unsigned char buffer [1];
 	sleep(1);
 	int i;
-
+	
 	initialiser_signaux();
 	//write ( socket_client, message_bienvenue , strlen(message_bienvenue ));
-	while (socket_client != 0) {
+	while (socket_client != 0) 
+	{
 		socket_client = accept ( socket_serveur , NULL , NULL );
 	
 		if ( socket_client == -1)
 		{
 			perror ( " accept " );
 		}
-		
 		if (fork() == 0)
 		{
 			
-			close(socket_serveur);
+			//close(socket_serveur);
 			write ( socket_client, message_bienvenue , strlen(message_bienvenue ));
-			while (1) {
+			int fini = 0;
+			while (fini == 0) {
 				if ((i = read( socket_client , buffer , sizeof(buffer)))== -1  ) {
 					perror("read");
+				} else if (i == 0)
+				{
+					fini = 1;
+					exit(0);
 				}
 				write ( socket_client, buffer , sizeof(buffer));
+				
 			}
-			close(socket_client);
-			exit(0);
+			
+			//close(socket_client);
+			//exit(0);
 		}
+		
 	}
-	close(socket_serveur);
+	//close(socket_serveur);
 	return port;
 
 } 

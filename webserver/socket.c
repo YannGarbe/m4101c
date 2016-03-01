@@ -40,7 +40,7 @@ int creer_serveur(int port) {
 	
 	int socket_serveur ;
 	socket_serveur = socket ( AF_INET , SOCK_STREAM , 0);
-	initialiser_signaux();
+
 	if ( socket_serveur == -1)
 	{
 		perror ( " socket_serveur " );
@@ -90,6 +90,7 @@ int creer_serveur(int port) {
 	sleep(1);
 	int i;
 
+	initialiser_signaux();
 	//write ( socket_client, message_bienvenue , strlen(message_bienvenue ));
 	while (socket_client != 0) {
 		socket_client = accept ( socket_serveur , NULL , NULL );
@@ -98,8 +99,10 @@ int creer_serveur(int port) {
 		{
 			perror ( " accept " );
 		}
+		
 		if (fork() == 0)
 		{
+			
 			close(socket_serveur);
 			write ( socket_client, message_bienvenue , strlen(message_bienvenue ));
 			while (1) {

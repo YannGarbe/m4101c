@@ -8,3 +8,4 @@ L'éxécutable s'appelle "mygaServer" qui s'éxécute avec la commande "./mygaSe
 
 -Lorsque le ou les clients  se connecte(nt) au serveur, il(s) reçoit/reçoivent un message de bienvenue.
 -Le client peut envoyer des messages au serveur qu'il renvoie de nouveau au client.
+-Les processus zombis sont bien terminés à la fin

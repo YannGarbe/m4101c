@@ -54,7 +54,7 @@ int creer_serveur(int port) {
 	
 	struct sockaddr_in saddr;
 	saddr.sin_family = AF_INET; /* Socket ipv4 */
-	saddr.sin_port = htons (8080); /* Port d ’ écoute */
+	saddr.sin_port = htons (port); /* Port d ’ écoute */
 	saddr.sin_addr.s_addr = INADDR_ANY; /* écoute sur toutes les interfaces */
 
 	/*Ajout de la modif socket*/
@@ -76,7 +76,7 @@ int creer_serveur(int port) {
 	}
 	
 	
-	int socket_client = 1;
+	int socket_client;
 	
 
 	/* On peut maintenant dialoguer avec le client */
@@ -87,20 +87,10 @@ int creer_serveur(int port) {
 	int pid;
 	FILE * file;
 
-
 	initialiser_signaux();
-
-	//int i;
-	//for (i = 0 ; i < 3 ; i++) 
-	while (socket_client != 0)
+	while ((socket_client = accept(socket_serveur, NULL, NULL)) != -1) 
 	{
-		
-		socket_client = accept ( socket_serveur , NULL , NULL );
-		if ( socket_client == -1)
-		{
-			perror ( " accept " );
-		}	
-		
+
 		file = fdopen (socket_client , "w+" );
 			if (file==NULL)
 			{
@@ -113,19 +103,12 @@ int creer_serveur(int port) {
 			
 			close(socket_serveur);
 			write ( socket_client, message_bienvenue , strlen(message_bienvenue));
-			fgets(buffer, 80, file);
-			fflush(file);
-			//int fini = 0;
-			while (1) {/*fini == 0*/
-				
-				fprintf(file, "<mygaServer> %s", buffer);
-				fflush(file);
-				fgets(buffer, 80, file);
-				fflush(file);
-				
+			while(fgets(buffer, 80, file) != NULL) 
+			{	
+				fprintf(file, "<mygaServer> %s", buffer);	
 			}	
-			
-				//exit(0);
+			fclose(file);
+			exit (0);
 		} else {
 			close(socket_client);
 		}
@@ -135,7 +118,6 @@ int creer_serveur(int port) {
 		return port;
 
 	} 
-
 
 
 

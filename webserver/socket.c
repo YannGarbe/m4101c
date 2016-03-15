@@ -148,6 +148,7 @@ int creer_serveur(int port) {
 	FILE * file;
 	int erreur = 1;
 	int errorNotFound = 0;
+	int first = 0;
 	char * msgError="\nHTTP/1.1 400 Bad Request\n\rConnection: close\n\rContent-Length: 17 \n\n\r400 Bad request\n\r\n";
 	
 	char * msgSuccess="\nHTTP/1.1 200 OK\n\rContent-Length: \n\n";
@@ -178,12 +179,14 @@ int creer_serveur(int port) {
 				if(errorNotFound==1 && ((strcmp(msg,"\r\n")==0)||(strcmp(msg,"\n")==0))){
 					fprintf(file, msgNotFound);
 					errorNotFound=0;
+					first = 0;
 				}
 
 	
 				else if(erreur==1 && ((strcmp(msg,"\r\n")==0)||(strcmp(msg,"\n")==0)))
 				{
 					fprintf(file, msgError);
+					first = 0;
 				}
 				else if(errorNotFound == 0 && erreur==0 && ((strcmp(msg,"\r\n")==0)||(strcmp(msg,"\n")==0)))
 				{
@@ -195,15 +198,20 @@ int creer_serveur(int port) {
 							msgSuccess="\nHTTP/1.1 200 OK\n\rContent-Length: ";
 							printf("Connection Accomplie!\n");
 							erreur=1;
+							first = 0;
 							fprintf(file, message_bienvenue);
 				}
-				if(verif(msg)==0)
+				if(verif(msg)==0 && first==0)
 				{
 					erreur=0;
 				} 
-				else if (verif(msg) ==404)
+				else if (verif(msg) ==404 &&  first==0)
 				{
 					errorNotFound = 1;
+				}
+
+				if(msg && ((strcmp(msg,"\r\n")!=0)&&(strcmp(msg,"\n")!=0))){
+					first = 1;
 				}
 			}	
 			fclose(file);

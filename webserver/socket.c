@@ -147,10 +147,12 @@ int creer_serveur(int port) {
 	int pid;
 	FILE * file;
 	int erreur = 1;
-
+	int errorNotFound = 0;
 	char * msgError="\nHTTP/1.1 400 Bad Request\n\rConnection: close\n\rContent-Length: 17 \n\n\r400 Bad request\n\r\n";
 	
 	char * msgSuccess="\nHTTP/1.1 200 OK\n\rContent-Length: \n\n";
+
+	char * msgNotFound="\nHTTP/1.1 404 Not Found\n\rConnection: close\n\rContent-Length: 17 \n\n\r404 Not Found\n\r";
 	initialiser_signaux();
 	while ((socket_client = accept(socket_serveur, NULL, NULL)) != -1) 
 	{
@@ -172,12 +174,18 @@ int creer_serveur(int port) {
 			while((msg=req(buffer, file, sizeof(buffer)/sizeof(buffer[0]))))
 			{	
 				//fprintf(file, "<mygaServer> %s", buffer);
-				//printf("%s\n", buffer);	
-				if(erreur==1 && ((strcmp(msg,"\r\n")==0)||(strcmp(msg,"\n")==0)))
+				//printf("%s\n", buffer);
+				if(errorNotFound==1 && ((strcmp(msg,"\r\n")==0)||(strcmp(msg,"\n")==0))){
+					fprintf(file, msgNotFound);
+					errorNotFound=0;
+				}
+
+	
+				else if(erreur==1 && ((strcmp(msg,"\r\n")==0)||(strcmp(msg,"\n")==0)))
 				{
 					fprintf(file, msgError);
 				}
-				else if(erreur==0 && ((strcmp(msg,"\r\n")==0)||(strcmp(msg,"\n")==0)))
+				else if(errorNotFound == 0 && erreur==0 && ((strcmp(msg,"\r\n")==0)||(strcmp(msg,"\n")==0)))
 				{
 							char str[15];
 							sprintf(str, "%d", (int)strlen(message_bienvenue));
@@ -192,6 +200,10 @@ int creer_serveur(int port) {
 				if(verif(msg)==0)
 				{
 					erreur=0;
+				} 
+				else if (verif(msg) ==404)
+				{
+					errorNotFound = 1;
 				}
 			}	
 			fclose(file);
